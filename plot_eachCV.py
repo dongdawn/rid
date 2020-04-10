@@ -38,8 +38,8 @@ def plot_iter(filedir,num_iter,num_walkers,cv_index,time_len,figout):
             data = np.loadtxt(filename)
             time = data[:,0]+it*float(time_len)
             ang = data[:,int(cv_index)]
-            if np.max(ang)>4:
-                print(filename)
+            #if np.max(ang)>4:
+            #    print(filename)
             ax.plot(time,ang,alpha=0.8,color=colors[wal])
     ax.set_ylabel('distance (nm)',fontproperties=font_prop)
     ax.set_xlabel('time (ps)',fontproperties=font_prop)
