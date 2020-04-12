@@ -58,7 +58,7 @@ def plot_iter(rmsddir,plmdir,num_iter,num_walkers,figout):
             label.set_fontproperties(font_prop)
             label.set_fontsize(10)
     plt.savefig('dist_rmsd.png',dpi=300,bbox_inches='tight')
-    plt.tight_layout(pad=0.4, w_pad=0.4, h_pad=0.4)
+    plt.tight_layout(pad=0.4, w_pad=0.6, h_pad=0.6)
     plt.show()
 
 if __name__ == "__main__":
