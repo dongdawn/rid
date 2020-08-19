@@ -1,4 +1,4 @@
-1, Install python and tensorflow (version<=1.15)
+#1, Install python and tensorflow (version<=1.15)
 
 2, Install tensorflow's C++ interface
 The tensorflow's C++ interface will be compiled from the source code, can be found [here](https://github.com/deepmodeling/deepmd-kit/blob/master/doc/install-tf.1.8.md).
