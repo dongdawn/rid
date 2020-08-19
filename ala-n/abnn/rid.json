@@ -1,0 +1,65 @@
+{
+    "_comment":		"Gromacs settings",
+    "gmx_prep":		"gmx grompp",
+    "gmx_run":		"gmx mdrun",
+    "gmx_split_traj":	"echo 0 | gmx trjconv -sep -f traj.trr -o confs/conf.gro -vel",
+    "gmx_angle":	"./angle.sh",
+
+    "_comment":		"Simulation settings",
+    "template_dir":	"/home/wanghan/study/deep.fe/source/3-ala/metad/template",
+    "init_graph":	[],
+    "numb_iter":	100000,
+
+    "_comment":		"00.bias",
+    "numb_walkers":	1,
+    "bias_trust_lvl_1":	4.0,
+    "bias_trust_lvl_2":	4.5,
+    "bias_nsteps":	50000,
+    "bias_frame_freq":	100,
+    "sel_threshold":	4.0,
+    "max_sel":		48,
+
+    "_comment":		"01.res",
+    "res_nsteps":	50000,
+    "res_frame_freq":	5,
+    "res_cmpf_error":	false,
+    "_comment":		"for md without bias",
+    "conf_start":	0,
+    "conf_every":	1,
+
+    "_comment":		"02.train",
+    "numb_model":	4,
+
+    "_comment":		"training parameters",
+    "neurons":		[200, 200, 200, 200, 200, 200],
+    "resnet":		true,
+    "batch_size":	128,
+    "numb_epoches":	3000,
+    "starter_lr":	0.003,
+    "decay_steps":	10,
+    "decay_rate":	0.96,
+    "res_iter":		20,
+    "res_numb_epoches":	3000,
+    "res_starter_lr":	0.0005,
+    "res_olddata_ratio":7,
+    "res_decay_steps":	14,
+    "res_decay_rate":	0.96,
+
+    "_comment":		"system resources",
+    "cleanup":		true,
+    "bias_thread":	6,
+    "res_thread":	6,
+    "train_thread":	6,
+    "res_group_size":	4,
+    "batch_jobs":	false,
+    "batch_time_limit":	"5:0:0",
+    "batch_modules":	[
+	"cudatoolkit/9.1", 
+	"cudnn/cuda-9.1/7.1.2"
+    ],
+    "batch_sources":	[
+	"/home/linfengz/SCR/wanghan/local/bin/GMXRC"
+    ],
+
+    "_comment":		"That's all"
+}
