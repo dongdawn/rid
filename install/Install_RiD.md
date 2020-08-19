@@ -14,7 +14,7 @@ CXXFLAGS="-std=gnu++11 -I $tf_path/include/" LDFLAGS=" -L$tf_path/lib -ltensorfl
 Set the bashrc
 ```bash
 source /software/plumed-2.5.2/sourceme.sh
-export PLUMED2_HOME=/home/dongdong/software/plumed252
+export PLUMED2_HOME=/software/plumed252
 export PATH=$PLUMED2_HOME/bin:$PATH
 export LD_LIBRARY_PATH=$PLUMED2_HOME/lib:$LD_LIBRARY_PATH
 export PKG_CONFIG_PATH=$PLUMED2_HOME/pkgconfig:$PKG_CONFIG_PATH
