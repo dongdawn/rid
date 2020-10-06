@@ -1,0 +1,15 @@
+#!/bin/bash -l
+#SBATCH -N 1
+#SBATCH -n 1
+#SBATCH -t 00:40:0
+#SBATCH --mem 32G 
+#SBATCH --ntasks-per-node 6
+#SBATCH --gres=gpu:1
+
+module load cudatoolkit/9.1
+module load cudnn/cuda-9.1/7.1.2
+
+source /home/dongdong/software/GMX20192plumed/bin/GMXRC.bash
+source /home/linfengz/SCR/softwares/tf_venv_r1.8/bin/activate
+
+python -u evl_min.py -m ../graph.000.pb ../graph.001.pb ../graph.002.pb ../graph.003.pb 
