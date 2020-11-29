@@ -9,7 +9,7 @@ The tensorflow's C++ interface will be compiled from the source code, can be fou
 tar -xvzf plumed-2.5.2.tgz
 cp DeePFE.cpp plumed-2.5.2/src/bias
 tf_path=$tensorflow_root
-CXXFLAGS="-std=gnu++11 -I $tf_path/include/" LDFLAGS=" -L$tf_path/lib -ltensorflow_framework -ltensorflow_cc -Wl,-rpath,$tf_path/lib/" ./configure --prefix=/software/plumed253 CC=mpicc CXX=mpicxx
+CXXFLAGS="-std=gnu++11 -I $tf_path/include/" LDFLAGS=" -L$tf_path/lib -ltensorflow_framework -ltensorflow_cc -Wl,-rpath,$tf_path/lib/" ./configure --prefix=/software/plumed252 CC=mpicc CXX=mpicxx
 ```
 Set the bashrc
 ```bash
