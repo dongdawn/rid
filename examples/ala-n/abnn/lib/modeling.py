@@ -22,7 +22,7 @@ from lib.batch_exec import exec_batch_group
 
 from template.tools.cluster_cv import sel_from_cluster
 
-cv_dim = 2
+cv_dim = 18
 
 shell_clustering = False
 
@@ -144,10 +144,13 @@ def make_res (iter_index,
     jdata = json.load (fp)
     numb_walkers = jdata["numb_walkers"]
     template_dir = jdata["template_dir"]    
+    bias_nsteps = jdata["bias_nsteps"]
+    bias_frame_freq = jdata["bias_frame_freq"]
     nsteps = jdata["res_nsteps"]
     frame_freq = jdata["res_frame_freq"]
     sel_threshold = jdata["sel_threshold"]
     max_sel = jdata["max_sel"]
+    cluster_threshold = jdata["cluster_threshold"]
 
     base_path = os.getcwd() + "/"
     iter_name = make_iter_name (iter_index)
@@ -182,6 +185,11 @@ def make_res (iter_index,
                     sel_idx += [int(x) for x in line.split()]
             if len(sel_idx) != 0 :
                 sel_angles = np.reshape(np.loadtxt(walker_path + 'sel.angle.out'), [-1,cv_dim])
+            elif len(sel_idx) == 0 :
+                np.savetxt (walker_path + 'num_of_cluster.dat', [0], fmt = '%d')
+                np.savetxt (walker_path + 'cls.sel.out', [], fmt = '%d')
+                continue
+
         else :        
             sel_idx = range (len(glob.glob (walker_path + enhc_out_conf + "conf*gro")))
             sel_angles = np.loadtxt (walker_path + enhc_out_angle)
@@ -193,29 +201,28 @@ def make_res (iter_index,
 
         sel_idx = np.array (sel_idx, dtype = np.int)
         assert (len(sel_idx) == sel_angles.shape[0])
-        if len(sel_idx) > max_sel :
-            log_task ("walker %d sel %d confs that is larger than %d, randomly sel %d out of them" % 
-                      (walker_idx, len(sel_idx), max_sel, max_sel))
-            # np.random.shuffle (sel_idx)
-            # sel_idx = sel_idx[:max_sel]
-            # sel_idx = np.sort (sel_idx)
-            if shell_clustering :
-                cmd_sel_from_cluster = (base_path +
-                                        "template/tools/cluster_cv.py -i %s -c %s -n %d --output-idx %s  --output-cv %s" 
-                                        % ( walker_path + 'sel.out',
-                                            walker_path + 'sel.angle.out',
-                                            max_sel,
-                                            walker_path + 'cls.sel.out',
-                                            walker_path + 'cls.sel.angle.out'
-                                        )
-                )
-                sp.check_call(cmd_sel_from_cluster, shell = True)
-                sel_idx = np.loadtxt(walker_path + 'cls.sel.out', dtype = np.int)
-            else :
-                cls_sel = sel_from_cluster (sel_angles, max_sel)
-                sel_idx = sel_idx[cls_sel]
-                np.savetxt (walker_path + 'cls.sel.angle.0.out', sel_angles[cls_sel], fmt = '%.6f')
-    
+        if shell_clustering and len(sel_idx)>1:
+            cmd_sel_from_cluster = (base_path +
+                                    "template/tools/cluster_cv.py -i %s -c %s -t %f --output-idx %s  --output-cv %s" 
+                                    % ( walker_path + 'sel.out',
+                                        walker_path + 'sel.angle.out',
+                                        cluster_threshold,
+                                        walker_path + 'cls.sel.out',
+                                        walker_path + 'cls.sel.angle.out'
+                                    )
+            )
+            sp.check_call(cmd_sel_from_cluster, shell = True)
+            sel_idx = np.loadtxt(walker_path + 'cls.sel.out', dtype = np.int)
+        elif shell_clustering == False and len(sel_idx)>1 :
+            cls_sel = sel_from_cluster (sel_angles, cluster_threshold)
+##############################################################################################
+            np.savetxt (walker_path + 'num_of_cluster.dat', [len(set(cls_sel))], fmt = '%d')
+            if len(cls_sel)>max_sel:
+                cls_sel=cls_sel[-max_sel:]
+            sel_idx = sel_idx[cls_sel]
+            np.savetxt (walker_path + 'cls.sel.angle.0.out', sel_angles[cls_sel], fmt = '%.6f')
+        elif len(sel_idx)==1:
+            np.savetxt (walker_path + 'num_of_cluster.dat', [1], fmt = '%d')
         res_angles = np.loadtxt (walker_path + enhc_out_angle)
         res_angles = np.reshape (res_angles, [-1, cv_dim])
         res_angles = res_angles[sel_idx]

@@ -13,7 +13,7 @@ def make_slurm_script (cmd,
                        numb_gpu = 0, 
                        task_args = None, 
                        time_limit = "0:30:0",
-                       mem_limit = 32,
+                       mem_limit = 5,
                        modules = None,
                        sources = None,
                        fin_tag = 'tag_finished') :
@@ -21,17 +21,26 @@ def make_slurm_script (cmd,
     ret += "#!/bin/bash -l\n"
     ret += "#SBATCH -N 1\n"
     ret += "#SBATCH -n 1\n"
+    #ret += "#SBATCH --exclude=gpu[01-07,12-13]\n"
+    #ret += "#SBATCH --exclude=gpu[01-07,10-13]\n"
+    #ret += "#SBATCH --exclude=gpu[01,03,05,06,08-13]\n"
+    ret += "#SBATCH --partition=all\n"
     ret += "#SBATCH -t %s\n" % time_limit
     ret += "#SBATCH --mem %dG \n" % mem_limit
     ret += "#SBATCH --ntasks-per-node %d\n" % work_thread
     if numb_gpu > 0 :
         ret += "#SBATCH --gres=gpu:%d\n" % numb_gpu
+    #ret += "\n"
+    if modules is not None:
+        for ii in modules :
+            #ret += "module %s\n" % ii
+            ret += "%s\n" % ii
     ret += "\n"
-    for ii in modules :
-        ret += "module load %s\n" % ii
+    ret +="export PATH=/data2/publicsoft/anaconda3/envs/tf112/bin:$PATH"
     ret += "\n"
-    for ii in sources :
-        ret += "source %s\n" %ii
+    if sources is not None:
+        for ii in sources :
+            ret += "source %s\n" %ii
     ret += "\n"        
     if task_args is not None :
         ret += cmd + task_args + "\n"
@@ -49,7 +58,7 @@ def make_slurm_script_group (cmd,
                              numb_gpu = 0,
                              task_args = None, 
                              time_limit = "0:30:0",
-                             mem_limit = 32,
+                             mem_limit = 5,
                              modules = None,
                              sources = None,
                              fin_tag = 'tag_finished') :
@@ -60,18 +69,23 @@ def make_slurm_script_group (cmd,
     ret += "#!/bin/bash -l\n"
     ret += "#SBATCH -N 1\n"
     ret += "#SBATCH -n 1\n"
+    #ret += "#SBATCH --exclude=gpu[01-07,12-13]\n"
+    #ret += "#SBATCH --exclude=gpu[01,03,05,06,08-13]\n"
+    ret += "#SBATCH --partition=all\n"
     ret += "#SBATCH -t %s\n" % time_limit
     ret += "#SBATCH --mem %dG \n" % mem_limit
     ret += "#SBATCH --ntasks-per-node %d\n" % work_thread
     if numb_gpu > 0 :
         ret += "#SBATCH --gres=gpu:%d\n" % numb_gpu
-    ret += "\n"
+    #ret += "\n"
 #    ret += "set -euo pipefail\n"
     for ii in modules :
-        ret += "module load %s\n" % ii
+        #ret += "module %s\n" % ii
+        ret += "%s\n" % ii
     ret += "\n"
-    for ii in sources :
-        ret += "source %s\n" %ii
+    if sources is not None:
+        for ii in sources :
+            ret += "source %s\n" %ii
     ret += "\n"        
     ret += "cwd=`pwd`"
     ret += "\n"        
@@ -96,7 +110,7 @@ def exec_batch (cmd,
                 task_dirs,
                 task_args = None, 
                 time_limit = "24:0:0", 
-                mem_limit = 32,
+                mem_limit = 6,
                 modules = None,
                 sources = None) :
     cwd = os.getcwd()
@@ -107,9 +121,9 @@ def exec_batch (cmd,
         myarg = None
         if task_args is not None :
             myarg = task_args[ii]
-        with open('_sub', 'w') as fp :
+        with open('sub', 'w') as fp :
             fp.write(make_slurm_script(cmd, work_thread, numb_gpu, myarg, time_limit, mem_limit, modules, sources, fin_tag))
-        job = SlurmJob(os.getcwd(), '_sub', job_finish_tag = fin_tag)
+        job = SlurmJob(os.getcwd(), 'sub', job_finish_tag = fin_tag)
         job_list.append (job)
         os.chdir(cwd)
 
@@ -140,7 +154,7 @@ def exec_batch_group (cmd,
                       group_size = 10,
                       task_args = None, 
                       time_limit = "24:0:0", 
-                      mem_limit = 32,
+                      mem_limit = 6,
                       modules = None,
                       sources = None) :
     cwd = os.getcwd()
@@ -172,9 +186,9 @@ def exec_batch_group (cmd,
         if not os.path.isdir(group_dir) :
             os.mkdir(group_dir)
         os.chdir(group_dir)
-        with open('_sub', 'w') as fp:
+        with open('sub', 'w') as fp:
             fp.write(make_slurm_script_group(cmd, task_chunks[ii], work_thread, numb_gpu, args_chunks[ii], time_limit, mem_limit, modules, sources, fin_tag))
-            job = SlurmJob(os.getcwd(), '_sub', job_finish_tag = fin_tag)
+            job = SlurmJob(os.getcwd(), 'sub', job_finish_tag = fin_tag)
         job_list.append (job)
         os.chdir(working_dir)
     os.chdir(cwd)

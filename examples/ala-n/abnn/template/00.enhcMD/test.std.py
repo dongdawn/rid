@@ -10,7 +10,7 @@ import tensorflow as tf
 kbT = (8.617343E-5) * 300 
 beta = 1.0 / kbT
 f_cvt = 96.485
-cv_dim = 8
+cv_dim = 18
 
 def load_graph(frozen_graph_filename, 
                prefix = 'load'):

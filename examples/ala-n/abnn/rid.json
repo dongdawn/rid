@@ -3,25 +3,26 @@
     "gmx_prep":		"gmx grompp",
     "gmx_run":		"gmx mdrun",
     "gmx_split_traj":	"echo 0 | gmx trjconv -sep -f traj.trr -o confs/conf.gro -vel",
-    "gmx_angle":	"./angle.sh",
 
     "_comment":		"Simulation settings",
-    "template_dir":	"/home/wanghan/study/deep.fe/source/3-ala/metad/template",
+    "template_dir":	"./template",
     "init_graph":	[],
-    "numb_iter":	100000,
+    "numb_iter":	31,
 
     "_comment":		"00.bias",
-    "numb_walkers":	1,
-    "bias_trust_lvl_1":	4.0,
-    "bias_trust_lvl_2":	4.5,
-    "bias_nsteps":	50000,
-    "bias_frame_freq":	100,
-    "sel_threshold":	4.0,
-    "max_sel":		48,
+    "numb_walkers":	4,
+    "bias_trust_lvl_1":	2,
+    "bias_trust_lvl_2":	3,
+    "bias_nsteps":	250000,
+    "bias_frame_freq":	250,
+    "sel_threshold":	2,
+    "cluster_threshold":0.5,
+    "num_of_cluster_threshhold":15,
+    "max_sel":          50,
 
     "_comment":		"01.res",
     "res_nsteps":	50000,
-    "res_frame_freq":	5,
+    "res_frame_freq":	50,
     "res_cmpf_error":	false,
     "_comment":		"for md without bias",
     "conf_start":	0,
@@ -31,35 +32,42 @@
     "numb_model":	4,
 
     "_comment":		"training parameters",
-    "neurons":		[200, 200, 200, 200, 200, 200],
+    "neurons":		[200, 200, 200, 200],
     "resnet":		true,
     "batch_size":	128,
-    "numb_epoches":	3000,
-    "starter_lr":	0.003,
-    "decay_steps":	10,
+    "numb_epoches":	16000,
+    "starter_lr":	0.0006,
+    "decay_steps":	120,
     "decay_rate":	0.96,
-    "res_iter":		20,
-    "res_numb_epoches":	3000,
-    "res_starter_lr":	0.0005,
+    "res_iter":		31,
+    "res_numb_epoches":	12000,
+    "res_starter_lr":	0.0006,
     "res_olddata_ratio":7,
-    "res_decay_steps":	14,
+    "res_decay_steps":	80,
     "res_decay_rate":	0.96,
 
-    "_comment":		"system resources",
-    "cleanup":		true,
-    "bias_thread":	6,
-    "res_thread":	6,
-    "train_thread":	6,
-    "res_group_size":	4,
-    "batch_jobs":	false,
-    "batch_time_limit":	"5:0:0",
-    "batch_modules":	[
-	"cudatoolkit/9.1", 
-	"cudnn/cuda-9.1/7.1.2"
+    "_comment":         "system resources",
+    "cleanup":          true,
+    "bias_thread":      4,
+    "res_thread":       4,
+    "train_thread":     4,
+    "res_group_size":   10,
+    "batch_jobs":       true,
+    "batch_time_limit": "24:0:0",
+    "batch_modules":    [
+        "##SBATCH --exclude=gpu[01-08,11-13]",
+        "#SBATCH --exclude=gpu[01,04-13]",
+        "##SBATCH --exclude=gpu[01-04,06-13]",
+        "module load cuda/10.0",
+        "module load cuDNN/v7.6forcuda10.0",
+        "module load plumed/2.5.1",
+        "module swap gromacs/2018.3-serial"
     ],
-    "batch_sources":	[
-	"/home/linfengz/SCR/wanghan/local/bin/GMXRC"
+    "batch_sources":    [
     ],
-
-    "_comment":		"That's all"
+    "export_sources":   [
+         "PATH=/data2/publicsoft/anaconda3/envs/tf112/bin:$PATH"
+    ],
+    "_comment":         "That's all"
 }
+

@@ -49,7 +49,7 @@ from lib.batch_exec import exec_batch_group
 exec_machine = MachineLocal
 max_tasks = 1000000
 
-enhc_files=["plumed.dat", "plumed.bf.dat", "test.std.py"]
+enhc_files=["plumed.dat", "plumed.bf.dat", "test.std.py",]
 enhc_plm="plumed.dat"
 enhc_bf_plm="plumed.bf.dat"
 enhc_out_plm="plm.out"
@@ -66,6 +66,7 @@ def make_enhc (iter_index,
     enhc_trust_lvl_2 = jdata["bias_trust_lvl_2"]
     nsteps = jdata["bias_nsteps"]
     frame_freq = jdata["bias_frame_freq"]
+    num_of_cluster_threshhold = jdata["num_of_cluster_threshhold"]
 
     iter_name = make_iter_name (iter_index)
     work_path = iter_name + "/" + enhc_name + "/"  
@@ -90,6 +91,7 @@ def make_enhc (iter_index,
         if os.path.exists (walker_path + "conf.gro") :
             os.remove (walker_path + "conf.gro")
         shutil.copy (conf_file, walker_path + "conf.gro")
+
         # if have prev confout.gro, use as init conf
         if (iter_index > 0) :
             prev_enhc_path = make_iter_name (iter_index-1) + "/" + enhc_name + "/" + make_walker_name(walker_idx) + "/"
@@ -100,6 +102,20 @@ def make_enhc (iter_index,
             else :
                 raise RuntimeError("cannot find prev output conf file  " + prev_enhc_path + 'confout.gro')
             log_task ("use conf of iter " + make_iter_name(iter_index-1) + " walker " + make_walker_name(walker_idx) )
+###########################################
+            num_of_cluster=np.loadtxt(prev_enhc_path+'num_of_cluster.dat')
+            pre_trust_lvl1=np.loadtxt(prev_enhc_path+'trust_lvl1.dat')
+            if num_of_cluster < num_of_cluster_threshhold:
+                enhc_trust_lvl_1 = pre_trust_lvl1 * 1.5
+                enhc_trust_lvl_2 = enhc_trust_lvl_1+1
+            else:
+                enhc_trust_lvl_1 = jdata["bias_trust_lvl_1"]
+                enhc_trust_lvl_2 = enhc_trust_lvl_1+1
+            if enhc_trust_lvl_1>jdata["bias_trust_lvl_1"]*8:
+                enhc_trust_lvl_1 = jdata["bias_trust_lvl_1"]
+                enhc_trust_lvl_2 = enhc_trust_lvl_1+1
+
+        np.savetxt(walker_path+'trust_lvl1.dat', [enhc_trust_lvl_1] , fmt = '%.6f')
         # copy enhc file
         for ii in enhc_files :
             if os.path.exists (walker_path + ii) :
@@ -131,9 +147,11 @@ def make_enhc (iter_index,
         replace(plm_conf, "TRUST_LVL_2=[^ ]* ", ("TRUST_LVL_2=%f " % enhc_trust_lvl_2))
         replace(plm_conf, "STRIDE=[^ ]* ", ("STRIDE=%d " % frame_freq))
         replace(plm_conf, "FILE=[^ ]* ", ("FILE=%s " % enhc_out_plm))
+
         plm_bf_conf = walker_path + enhc_bf_plm
         replace(plm_bf_conf, "STRIDE=[^ ]* ", ("STRIDE=%d " % frame_freq))
         replace(plm_bf_conf, "FILE=[^ ]* ", ("FILE=%s " % enhc_out_plm))
+
         if len(graph_list) == 0 :
             log_task ("brute force MD without NN acc")
         else :
@@ -219,7 +237,7 @@ def clean_enhc(iter_index):
     all_task = glob.glob(work_path + "/[0-9]*[0-9]")
     all_task.sort()
 
-    cleaned_files = ['state*.cpt', '*log', 'traj.trr', 'traj_comp.xtc', 'topol.tpr', 'ener.edr', 'mdout.mdp']
+    cleaned_files = ['state*.cpt', '*log', 'traj.trr', 'topol.tpr', 'ener.edr', 'mdout.mdp']
     cwd = os.getcwd()
     for ii in all_task :
         os.chdir(ii)
@@ -286,24 +304,18 @@ def run_iter (json_file, init_model) :
             elif jj == 2 :
                 log_iter ("post_enhc", ii, jj)
                 post_enhc (ii, json_file)
-                if cleanup :
-                    clean_enhc(ii)
             elif jj == 3 :
                 log_iter ("make_res", ii, jj)
                 cont = make_res (ii, json_file)
                 if not cont : 
                     log_iter ("no more conf needed", ii, jj)
                     return
-                if cleanup :
-                    clean_enhc_confs(ii)
             elif jj == 4 :
                 log_iter ("run_res", ii, jj)
                 run_res   (ii, json_file, exec_machine)
             elif jj == 5 :
                 log_iter ("post_res", ii, jj)
                 post_res  (ii, json_file)
-                if cleanup :
-                    clean_res(ii)
             elif jj == 6 :
                 log_iter ("make_train", ii, jj)
                 make_train(ii, json_file)
@@ -312,6 +324,9 @@ def run_iter (json_file, init_model) :
                 run_train (ii, json_file, exec_machine)
                 if cleanup :
                     clean_train(ii)
+                    clean_enhc(ii)
+                    clean_enhc_confs(ii)
+                    clean_res(ii)
             else :
                 raise RuntimeError ("unknow task %d, something wrong" % jj)
 

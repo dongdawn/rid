@@ -5,15 +5,14 @@ import argparse
 import numpy as np
 import sklearn.cluster as cluster
 
-cv_dih_dim = None
-
+cv_dih_dim = 18
 def parse_cmd () :
     parser = argparse.ArgumentParser()
     parser.add_argument("-i","--idx-file", type=str, default = 'sel.out',
                         help="The sel idx files")
     parser.add_argument("-c","--cv-file", type=str, default = 'sel.angle.out',
                         help="The sel cv files")
-    parser.add_argument("-n","--numb-cls", type=int, default = 10,
+    parser.add_argument("-t","--threshold", type=float, default = 0.3,
                         help="The number of clusters")
     parser.add_argument("--output-idx", type=str, default = 'cls.out',
                         help="The output cv idx")
@@ -46,19 +45,20 @@ def mk_dist (cv) :
             dist[jj][ii] = dist[ii][jj]
     return dist
 
-def mk_cluster (dist, ncluster) :
-    cls = cluster.AgglomerativeClustering(n_clusters = ncluster, 
+def mk_cluster (dist, distance_threshold) :
+    cls = cluster.AgglomerativeClustering(n_clusters = None, 
                                           linkage='average', 
-                                          affinity = 'precomputed')
+                                          affinity = 'precomputed',
+                                          distance_threshold=distance_threshold)
     cls.fit(dist)
     return cls.labels_
 
-def sel_from_cluster (angles, ncluster) :
+def sel_from_cluster (angles, distance_threshold) :
     dist = mk_dist (angles)
-    labels = mk_cluster (dist, ncluster)
+    labels = mk_cluster (dist, distance_threshold)
     # make cluster map
     cls_map = []
-    for ii in range(ncluster) :
+    for ii in range(len(set(labels))) :
         cls_map.append([])
     for ii in range(len(labels)) :
         cls_idx = labels[ii]
@@ -76,9 +76,9 @@ def _main () :
     args = parse_cmd ()
     angidx = np.loadtxt (args.idx_file)
     angles = np.loadtxt (args.cv_file)    
-    ncluster = args.numb_cls
+    distance_threshold = args.threshold
 
-    cls_sel = sel_from_cluster(angles, ncluster)
+    cls_sel = sel_from_cluster(angles, distance_threshold)
     
     np.savetxt(args.output_idx, angidx[cls_sel], fmt = '%d')
     np.savetxt(args.output_cv,  angles[cls_sel], fmt = '%.6f')
