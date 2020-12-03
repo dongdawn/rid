@@ -1,0 +1,63 @@
+                      :-) GROMACS - gmx mdrun, 2019.2 (-:
+
+                            GROMACS is written by:
+     Emile Apol      Rossen Apostolov      Paul Bauer     Herman J.C. Berendsen
+    Par Bjelkmar      Christian Blau   Viacheslav Bolnykh     Kevin Boyd    
+ Aldert van Buuren   Rudi van Drunen     Anton Feenstra       Alan Gray     
+  Gerrit Groenhof     Anca Hamuraru    Vincent Hindriksen  M. Eric Irrgang  
+  Aleksei Iupinov   Christoph Junghans     Joe Jordan     Dimitrios Karkoulis
+    Peter Kasson        Jiri Kraus      Carsten Kutzner      Per Larsson    
+  Justin A. Lemkul    Viveca Lindahl    Magnus Lundborg     Erik Marklund   
+    Pascal Merz     Pieter Meulenhoff    Teemu Murtola       Szilard Pall   
+    Sander Pronk      Roland Schulz      Michael Shirts    Alexey Shvetsov  
+   Alfons Sijbers     Peter Tieleman      Jon Vincent      Teemu Virolainen 
+ Christian Wennberg    Maarten Wolf   
+                           and the project leaders:
+        Mark Abraham, Berk Hess, Erik Lindahl, and David van der Spoel
+
+Copyright (c) 1991-2000, University of Groningen, The Netherlands.
+Copyright (c) 2001-2018, The GROMACS development team at
+Uppsala University, Stockholm University and
+the Royal Institute of Technology, Sweden.
+check out http://www.gromacs.org for more information.
+
+GROMACS is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License
+as published by the Free Software Foundation; either version 2.1
+of the License, or (at your option) any later version.
+
+GROMACS:      gmx mdrun, version 2019.2
+Executable:   /home/dongdong/software/GMX20192plumed/bin/gmx
+Data prefix:  /home/dongdong/software/GMX20192plumed
+Working dir:  /scratch/gpfs/dongdong/peptoid/data_dongdong
+Command line:
+  gmx mdrun -deffnm md -nt 8 -plumed plumed.bf.dat
+
+Compiled SIMD: AVX_256, but for this host/run AVX2_256 might be better (see
+log).
+Reading file md.tpr, VERSION 2019.2 (single precision)
+Non-default thread affinity set, disabling internal thread affinity
+Changing nstlist from 10 to 100, rlist from 1 to 1.159
+
+
+Using 1 MPI thread
+Using 8 OpenMP threads 
+
+1 GPU selected for this run.
+Mapping of GPU IDs to the 2 GPU tasks in the 1 rank on this node:
+  PP:0,PME:0
+PP tasks will do (non-perturbed) short-ranged interactions on the GPU
+PME tasks will do all aspects on the GPU
+starting mdrun 'Generic title in water'
+50000000 steps, 100000.0 ps.
+
+Writing final coordinates.
+
+               Core t (s)   Wall t (s)        (%)
+       Time:    89759.051    11219.883      800.0
+                         3h06:59
+                 (ns/day)    (hour/ns)
+Performance:      770.062        0.031
+
+GROMACS reminds you: "I Feel a Great Disturbance in the Force" (The Emperor Strikes Back)
+

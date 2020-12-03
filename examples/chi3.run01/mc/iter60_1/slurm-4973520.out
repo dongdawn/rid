@@ -1,0 +1,30 @@
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:521: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:522: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:523: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:528: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:From mc1d_2d.py:36: calling import_graph_def (from tensorflow.python.framework.importer) with op_dict is deprecated and will be removed in a future version.
+Instructions for updating:
+Please file an issue at https://github.com/tensorflow/tensorflow/issues if you depend on this feature.
+2020-07-06 15:38:08.242946: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2020-07-06 15:38:08.512025: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: Tesla P100-PCIE-16GB major: 6 minor: 0 memoryClockRate(GHz): 1.3285
+pciBusID: 0000:03:00.0
+totalMemory: 15.90GiB freeMemory: 15.64GiB
+2020-07-06 15:38:08.512116: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0
+2020-07-06 15:38:08.831258: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-07-06 15:38:08.831302: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 
+2020-07-06 15:38:08.831338: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N 
+2020-07-06 15:38:08.831462: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 15163 MB memory) -> physical GPU (device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:03:00.0, compute capability: 6.0)
+Decrease move_scale to 0.400000 due to low acceptance ratio: 0.149000
+Decrease move_scale to 0.320000 due to low acceptance ratio: 0.140500
+Decrease move_scale to 0.256000 due to low acceptance ratio: 0.145000
+Decrease move_scale to 0.204800 due to low acceptance ratio: 0.140500
+Decrease move_scale to 0.163840 due to low acceptance ratio: 0.145500

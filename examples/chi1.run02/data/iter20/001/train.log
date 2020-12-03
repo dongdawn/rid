@@ -1,0 +1,61 @@
+# restart           False
+# num_threads       6
+# neurons           [200, 200, 200, 200]
+# batch size        128
+# num_epoch         12000
+# use_mix           False
+# old_ratio         7
+# lr_0              0.0006
+# decay_steps       80
+# decay_steps_inner 0
+# decay_rate        0.96
+# resnet            True
+# graph_file        None
+Begin to optimize
+# start training from scratch
+epoch:   0, ab_err: 3.5767e-01, rel_err: 5.1168e+00, lr: 6.0000e-04
+epoch: 200, ab_err: 8.8178e-02, rel_err: 2.6646e-01, lr: 5.5296e-04
+epoch: 400, ab_err: 8.6924e-02, rel_err: 2.8436e-01, lr: 4.8922e-04
+epoch: 600, ab_err: 8.7015e-02, rel_err: 2.7738e-01, lr: 4.5087e-04
+epoch: 800, ab_err: 8.5073e-02, rel_err: 2.9320e-01, lr: 3.9890e-04
+epoch: 1000, ab_err: 7.7364e-02, rel_err: 3.1176e-01, lr: 3.6763e-04
+epoch: 1200, ab_err: 6.7168e-02, rel_err: 2.0657e-01, lr: 3.2525e-04
+epoch: 1400, ab_err: 7.0432e-02, rel_err: 2.4068e-01, lr: 2.9975e-04
+epoch: 1600, ab_err: 7.3302e-02, rel_err: 2.5221e-01, lr: 2.6520e-04
+epoch: 1800, ab_err: 6.3986e-02, rel_err: 2.4170e-01, lr: 2.4441e-04
+epoch: 2000, ab_err: 6.2473e-02, rel_err: 2.0032e-01, lr: 2.1624e-04
+epoch: 2200, ab_err: 5.7407e-/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:521: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:522: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:523: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/linfengz/SCR/softwares/tf_venv_r1.8/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:528: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+: 1.1441e-05
+epoch: 8000, ab_err: 3.3160e-02, rel_err: 9.7352e-02, lr: 1.0122e-05
+epoch: 8200, ab_err: 3.6449e-02, rel_err: 1.0880e-01, lr: 9.3286e-06
+epoch: 8400, ab_err: 3.2992e-02, rel_err: 9.0284e-02, lr: 8.2533e-06
+epoch: 8600, ab_err: 3.7340e-02, rel_err: 1.0225e-01, lr: 7.6063e-06
+epoch: 8800, ab_err: 3.2840e-02, rel_err: 9.1815e-02, lr: 6.7295e-06
+epoch: 9000, ab_err: 3.3148e-02, rel_err: 1.0472e-01, lr: 6.2020e-06
+epoch: 9200, ab_err: 2.8153e-02, rel_err: 7.8699e-02, lr: 5.4871e-06
+epoch: 9400, ab_err: 3.2947e-02, rel_err: 1.1923e-01, lr: 5.0569e-06
+epoch: 9600, ab_err: 3.2959e-02, rel_err: 8.7421e-02, lr: 4.4740e-06
+epoch: 9800, ab_err: 3.7658e-02, rel_err: 1.1142e-01, lr: 4.1233e-06
+epoch: 10000, ab_err: 3.0453e-02, rel_err: 8.8554e-02, lr: 3.6480e-06
+epoch: 10200, ab_err: 3.6260e-02, rel_err: 1.0138e-01, lr: 3.3620e-06
+epoch: 10400, ab_err: 3.0813e-02, rel_err: 8.1029e-02, lr: 2.9745e-06
+epoch: 10600, ab_err: 3.2209e-02, rel_err: 1.0331e-01, lr: 2.7413e-06
+epoch: 10800, ab_err: 3.4520e-02, rel_err: 1.2471e-01, lr: 2.4253e-06
+epoch: 11000, ab_err: 3.5843e-02, rel_err: 1.1953e-01, lr: 2.2352e-06
+epoch: 11200, ab_err: 2.9593e-02, rel_err: 9.1063e-02, lr: 1.9775e-06
+epoch: 11400, ab_err: 3.8173e-02, rel_err: 1.0189e-01, lr: 1.8225e-06
+epoch: 11600, ab_err: 3.2438e-02, rel_err: 9.0989e-02, lr: 1.6124e-06
+epoch: 11800, ab_err: 2.9995e-02, rel_err: 8.5184e-02, lr: 1.4860e-06
+epoch: 12000, ab_err: 2.9888e-02, rel_err: 9.4974e-02, lr: 1.3147e-06
+running time: 1531.803 s

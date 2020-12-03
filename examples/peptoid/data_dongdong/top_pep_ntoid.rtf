@@ -1,0 +1,161 @@
+! This is a topology file designed to build psf and pdb files for the charmm 
+! generalized force field. It has bonds, improper and double bonds. Not included are the angles and the! dihedrals
+
+MASS    01 HGA2   1.00800   ! Hydrogen bonded to CH2 
+MASS    02 HGA3   1.00800   ! Hydrogen bonded to CH3
+MASS    03 HGR61  1.00800   ! Hydrogen bonded to aromatic carbo
+MASS    04 CG321  12.01100  ! CH2 Carbon
+MASS    05 CG331  12.01100  ! CH3 Carbon
+MASS    06 CG2O1  12.01100  ! C=O Carbon
+MASS    07 CG2R61 12.01100  ! Aromatic Carbon
+MASS    08 OG2D1  15.99900  ! C=O Oxygen
+MASS    09 NTOID  14.00700  ! Peptoid Nitrogen
+MASS    10 HGA1   1.008000  ! hydrogen on a tertiary carbon 
+MASS    11 CG311  12.01100  ! 
+MASS    12 OG301  15.99900  ! methylene
+MASS    13 OG2D3  15.99900  !
+MASS    14 CG2O5  12.01100  !
+MASS    15 NG301  14.00700
+
+DECL -CA
+DECL -C
+DECL -O
+DECL +N
+DECL +HN
+DECL +CA
+DEFA FIRS none LAST none
+AUTO ANGLES DIHE
+
+                          !AtomModel associated with charges     
+RESI CT2           0.00   !        Amide Terminus 
+GROUP                     !    	 |  HT7
+ATOM N    NG2S0   -0.360  !      |   |
+ATOM CT3  CG331   -0.090  !      |   |
+ATOM HT4  HGA3     0.090  !      N--CT5-HT8
+ATOM HT5  HGA3     0.090  !      |   |
+ATOM HT6  HGA3     0.090  !      |  HT9
+ATOM CT5  CG331   -0.090  !      |
+ATOM HT7  HGA3     0.090  ! HT4-CT3-HT5
+ATOM HT8  HGA3     0.090  !      |
+ATOM HT9  HGA3     0.090  !     HT6        
+
+			  !Bonds within the residue
+BOND N   CT3 CT5  HT7  CT5 HT9
+BOND CT5 HT8 CT5   N
+BOND CT3 HT4 CT3  HT5  CT3 HT6
+
+
+RESI ACY             +0.00  ! Acetylated Terminus
+GROUP                       ! 
+                            !       
+GROUP                       !       |
+ATOM  CT1  CG2O1      0.530 !       N
+ATOM  HT1  HGA3       0.09  !       |
+ATOM  HT2  HGA3       0.09  !      CT1 = OT2
+ATOM  HT3  HGA3       0.09  !       |
+ATOM  OT2  OG2D1     -0.530 !  HT5-CT2 -HT3
+ATOM  CT2  CG331     -0.270 !       |
+                            !       |
+BOND CT1 +N CT2 HT3          !      HT4
+BOND CT2 HT1 CT2 HT2 CT1 CT2
+IMPR CT1 CT2 +N OT2 
+DOUBLE CT1 OT2
+
+RESI SAR                0.00
+GROUP                         !     |    HB1
+ATOM N    NTOID        -0.347 !     |   /
+ATOM HA1  HGA2          0.090 !     N--CB-HB2
+ATOM CA   CG321        -0.008 !     |   \
+ATOM HA2  HGA2          0.090 !     |    HB3
+GROUP                         !     |
+ATOM CB   CG331        -0.087 ! HA1-CA-HA2
+ATOM HB1  HGA3          0.090 !     |
+ATOM HB2  HGA3          0.090 !   O=C
+ATOM HB3  HGA3          0.090 !     |
+GROUP                         !     |
+ATOM C    CG2O1         0.530 ! 
+ATOM O    OG2D1        -0.530 !
+
+BOND    N  CB  N  CA  CA  HA1  CA HA2
+BOND    C  CA  C  +N  CB  HB1  CB HB2  CB HB3
+DOUBLE  O   C
+
+IMPR C +N CA O
+
+RESI PHP               !       |         HD1  HE1
+GROUP                  !       |          |    |
+ATOM N   NTOID   -0.350!       |   HB1  CD1--CE1
+ATOM CA  CG321   -0.008!       |   |    //     \\
+ATOM HA1 HGA2     0.090!       N---CB--CG       CZ-HZ
+ATOM HA2 HGA2     0.090!       |   |    \       /
+GROUP                          |  HB2   CD2==CE2
+ATOM C   CG2O1    0.530!       |          |    |
+ATOM O   OG2D1   -0.530!  HA1-CA-HA2      HD2  HE2
+GROUP                          |
+ATOM CB  CG321   -0.027!       |
+ATOM HB1 HGA2     0.090!     O=C
+ATOM HB2 HGA2     0.090!       |
+GROUP                          |
+ATOM CG  CG2R61  -0.025!       
+ATOM CD1 CG2R61  -0.122!     
+ATOM CD2 CG2R61  -0.122!      
+ATOM CE1 CG2R61  -0.115!       
+ATOM CE2 CG2R61  -0.115!
+ATOM CZ  CG2R61  -0.115!
+ATOM HD1 HGR61    0.115!
+ATOM HD2 HGR61    0.115!
+ATOM HE1 HGR61    0.115!
+ATOM HE2 HGR61    0.115!
+ATOM HZ  HGR61    0.115!
+
+BOND N   CA  CA  C   C  +N
+BOND CA  HA1 CA  HA2 CZ  HZ
+BOND CD1 HD1 CD2 HD2 CE1 HE1
+BOND CE2 HE2 CG  CD1 CD1 CE1
+BOND CE1 CZ  CZ  CE2 CE2 CD2
+BOND CD2 CG  N   CB  CB  HB1
+BOND CB  HB2 CB  CG
+DOUBLE C O
+
+IMPR C CA +N O
+
+RESI CHI                !       |     HB3        HD1  HE1
+GROUP                   !       |      |         |    |
+ATOM N   NTOID   -0.353 !       | HB4-CB2-HB2  CD1--CE1
+ATOM CA  CG321   -0.008 !       |      |       //     \\
+ATOM HA1 HGA2     0.090 !       N-----CB1-----CG       CZ-HZ
+ATOM HA2 HGA2     0.090 !       |      |       \       /
+GROUP                   !       |     HB1      CD2==CE2
+ATOM C   CG2O1    0.530 !       |              |    |
+ATOM O   OG2D1   -0.530 !  HA1-CA-HA2          HD2  HE2
+GROUP                           |
+ATOM CB1  CG311   0.09  !       |
+ATOM HB1  HGA1    0.09  !     O=C
+ATOM HB2  HGA3    0.09  !       |
+ATOM CB2  CG331  -0.27  !
+ATOM HB3  HGA3    0.09  !
+ATOM HB4  HGA3    0.09  !
+GROUP
+ATOM CG  CG2R61   0.015 !
+ATOM CD1 CG2R61  -0.122 !
+ATOM CE1 CG2R61  -0.115 !
+ATOM CZ  CG2R61  -0.115 !
+ATOM CE2 CG2R61  -0.115 !
+ATOM CD2 CG2R61  -0.122 !
+ATOM HD1 HGR61    0.115 !
+ATOM HD2 HGR61    0.115 !
+ATOM HE1 HGR61    0.115 !
+ATOM HE2 HGR61    0.115 !
+ATOM HZ  HGR61    0.115 !
+
+BOND N   CA  CA  C   +N  C
+BOND CA  HA1 CA  HA2 CZ  HZ
+BOND CD1 HD1 CD2 HD2 CE1 HE1
+BOND CE2 HE2 CG  CD1 CD1 CE1
+BOND CE1 CZ  CZ  CE2 CE2 CD2
+BOND CD2 CG  N   CB1 CB1 CB2
+BOND CB1 HB1 CB2 HB2 CB2 HB3
+BOND CB2 HB4 CB1 CG
+DOUBLE C O
+
+IMPR C CA +N O

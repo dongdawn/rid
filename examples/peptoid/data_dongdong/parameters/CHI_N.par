@@ -1,0 +1,45 @@
+! Penalties lower than 10 indicate the analogy is fair; penalties between 10
+! and 50 mean some basic validation is recommended; penalties higher than
+! 50 indicate poor analogy and mandate extensive validation/optimization.
+
+BONDS
+CG311  NG311   263.00     1.4740 ! /scrat , from CG321 NG311, penalty= 4
+
+ANGLES
+CG2R61 CG311  NG311    43.70    110.00 ! /scrat , from CG2O2 CG321 NG321, penalty= 33.7
+CG331  CG311  NG311    43.70    112.20 ! /scrat , from CG331 CG321 NG311, penalty= 4
+NG311  CG311  HGA1     32.40    109.50   50.00   2.13000 ! /scrat , from NG311 CG321 HGA2, penalty= 4
+CG2O1  CG321  NG311    43.70    110.00 ! /scrat , from CG2O2 CG321 NG321, penalty= 2.7
+CG311  NG311  CG321    40.50    112.20    5.00   2.42170 ! /scrat , from CG3AM1 NG311 CG3AM1, penalty= 35
+CG311  NG311  HGPAM1   35.00    111.00 ! /scrat , from CG321 NG311 HGPAM1, penalty= 0.6
+
+DIHEDRALS
+NTOID  CG2O1  CG321  NG311      0.4000  1     0.00 ! /scrat , from NG2S0 CG2O1 CG324 NG3P3, penalty= 37.9
+OG2D1  CG2O1  CG321  NG311      0.0000  1     0.00 ! /scrat , from OG2D1 CG2O1 CG324 NG3P3, penalty= 37.9
+CG2R61 CG2R61 CG311  NG311      0.0000  2     0.00 ! /scrat , from CG2R61 CG2R61 CG321 OG302, penalty= 37.5
+NG311  CG311  CG331  HGA3       0.1600  3     0.00 ! /scrat , from NG311 CG321 CG331 HGA3, penalty= 4
+
+CG2R61 CG311  NG311  CG321      1.1500  1   180.00 ! Fitted LJW 10/23/17
+CG2R61 CG311  NG311  CG321      0.8000  2     0.00 ! Fitted LJW 10/23/17
+CG2R61 CG311  NG311  CG321      0.4000  3     0.00 ! Fitted LJW 10/23/17
+
+CG2R61 CG311  NG311  HGPAM1     0.1600  3     0.00 ! /scrat , from CG2O2 CG321 NG321 HGPAM2, penalty= 43
+
+CG331  CG311  NG311  CG321      0.4000  3     0.00 ! Fitted LJW 10/23/17 
+
+CG331  CG311  NG311  HGPAM1     0.1000  3     0.00 ! /scrat , from CG331 CG321 NG311 HGP1, penalty= 5.5
+
+HGA1   CG311  NG311  CG321      0.0000  3   180.00 ! Set to Zero 
+
+HGA1   CG311  NG311  HGPAM1     0.0500  3     0.00 ! /scrat , from HGA2 CG321 NG311 HGPAM1, penalty= 4
+CG2O1  CG321  NG311  CG311      2.5000  1   180.00 ! /scrat , from NG311 CG321 NG311 CG2R61, penalty= 141.5
+CG2O1  CG321  NG311  CG311      1.5000  2     0.00 ! /scrat , from NG311 CG321 NG311 CG2R61, penalty= 141.5
+CG2O1  CG321  NG311  CG311      0.5000  3     0.00 ! /scrat , from NG311 CG321 NG311 CG2R61, penalty= 141.5
+CG2O1  CG321  NG311  HGPAM1     0.0000  3     0.00 ! /scrat , from CG2O2 CG321 NG321 HGPAM2, penalty= 12
+
+HGA2   CG321  NG311  CG311      0.0000  3   180.00 ! Set to Zero.
+
+IMPROPERS
+
+END
+RETURN

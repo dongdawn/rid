@@ -1,0 +1,87 @@
+! This parameter file is not sufficient for peptoid simulation. 
+! You must also use the cgenff parameter file downloaded from the
+! CHARMM Website:  http://mackerell.umaryland.edu/charmm_ff.shtml
+
+ATOMS
+MASS   257 HGA2     1.00800  ! alphatic proton, CH2
+MASS   258 HGA3     1.00800  ! alphatic proton, CH3
+MASS   293 CG2O1   12.01100  ! carbonyl C: amides
+MASS   318 CG321   12.01100  ! aliphatic C for CH2
+MASS   322 CG331   12.01100  ! aliphatic C for methyl group (-CH3)
+MASS   339 NTOID   14.00700  ! peptide nitrogen (CO=NHR)
+MASS   366 OG2D1   15.99940  ! carbonyl O: amides, esters, [neutral] carboxylic acids, aldehydes, urea
+
+BONDS
+CG2O1  NTOID   370.00     1.3450 ! PROT Alanine Dipeptide ab initio calc's (LK)
+CG321  NTOID   320.00     1.4300 ! PROT NMA Gas & Liquid Phase IR Spectra (LK)
+CG331  NTOID   320.00     1.4300 ! PROT NMA Gas & Liquid Phase IR Spectra (LK)
+
+ANGLES
+CG311  CG2O1  NTOID    80.00    116.50 ! PROT NMA Vib Modes (LK)
+CG321  CG2O1  NTOID    80.00    116.50 ! PROT NMA Vib Modes (LK)
+CG331  CG2O1  NTOID    80.00    116.50 ! PROT NMA Vib Modes (LK)
+NTOID  CG2O1  OG2D1    80.00    122.50 ! PROT NMA Vib Modes (LK)
+CG2O1  CG321  NTOID    50.00    107.00 ! PROT Alanine Dipeptide ab initio calc's (LK)
+CG321  CG321  NTOID    70.00    113.50 ! slack parameter picked up by 3CPD ==> re-optimize?
+CG331  CG321  NTOID    70.00    120.00 ! DECB, diethyl carbamate, cacha & xxwy ! 120, really??? DBLCHECK WITH WENBO!!!
+NTOID  CG321  HGA2     51.50    109.50 ! PROT from NTOID  CG331  HA, for lactams, adm jr.
+NTOID  CG331  HGA3     51.50    109.50 ! PROT NMA crystal (JCS)
+CG2O1  NTOID  CG321    50.00    120.00 ! PROT NMA Vib Modes (LK)
+CG2O1  NTOID  CG331    50.00    120.00 ! PROT NMA Vib Modes (LK)
+CG331  NTOID  CG331    45.00    121.00 ! /scrat , from CG331 NG2S0 CG331, % assigned by ME
+CG321  NTOID  CG331    45.00    121.00 ! /scrat , from CG331 NG2S0 CG331, % assigned by ME
+
+
+DIHEDRALS
+NG2S0  CG2O1  CG321  NTOID      0.4000  1     0.00 ! PROT AcProNH2, ProNH2, AcProNHCH3 RLD 4/23/93
+NTOID  CG2O1  CG321  CG321      0.0000  1     0.00 ! PROT from NTOID  CG2O1  CG311  CT2, for lactams, adm jr.
+NTOID  CG2O1  CG321  HGA1       0.0000  1     0.00 ! PROT Alanine Dipeptide ab initio calc's (LK)
+NTOID  CG2O1  CG321  HGA2       0.0000  3     0.00 ! PROT, sp2-methyl, no torsion potential
+NG2S2  CG2O1  CG321  NTOID      0.6000  1     0.00 ! PROT ala dipeptide, new C VDW Rmin, adm jr., 3/3/93
+OG2D1  CG2O1  CG321  NTOID      0.0000  1     0.00 ! PROT Alanine Dipeptide ab initio calc's (LK)
+NTOID  CG2O1  CG331  HGA3       0.0000  3     0.00 ! PROT, sp2-methyl, no torsion potential
+
+!Omega Parameters
+CG311  CG2O1  NTOID  CG311      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier 
+CG311  CG2O1  NTOID  CG321      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier
+CG311  CG2O1  NTOID  CG331      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier
+CG321  CG2O1  NTOID  CG311      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier 
+CG321  CG2O1  NTOID  CG321      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier 
+CG331  CG2O1  NTOID  CG311      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier 
+CG331  CG2O1  NTOID  CG321      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier
+CG331  CG2O1  NTOID  CG331      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier
+CG321  CG2O1  NTOID  CG331      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier
+OG2D1  CG2O1  NTOID  CG311      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier 
+OG2D1  CG2O1  NTOID  CG321      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier
+OG2D1  CG2O1  NTOID  CG331      2.1500  2   180.00 ! Reproduces Peptoid cis/trans barrier
+
+CG321  CG321  CG321  NTOID      0.2000  3     0.00 ! ALBE, Alpha Lysine Benzyl Ester CDCA Amide, cacha
+NTOID  CG321  CG321  SG3O1      1.3300  2     0.00 ! NACT, N-acetyltaurine, compromise between 6-31G* and 6-31+G*, xxwy & kevo
+NTOID  CG321  CG321  SG3O1      0.0800  3   180.00 ! NACT, N-acetyltaurine, compromise between 6-31G* and 6-31+G*, xxwy & kevo
+NTOID  CG321  CG321  HGA2       0.1950  3     0.00 ! TCA, Taurocholic Acid, cacha, 03/06 OK
+HGA2   CG321  CG324  NG2O1      0.1950  3     0.00 ! NIPR, nitropropane; from NTOID CG321 CG321 HGA2; abar
+NTOID  CG321  CG331  HGA3       0.1950  3     0.00 ! DECB, diethyl carbamate, cacha
+HGA1   CG321  NTOID  CG2O1      0.0000  1     0.00 ! PROT Alanine Dipeptide ab initio calc's (LK)
+HGA2   CG321  NTOID  CG2O1      0.0000  3     0.00 ! PROT, sp2-methyl, no torsion potential
+HGA2   CG321  NTOID  CG331      0.0000  3     0.00 ! PROT, sp2-methyl, no torsion potential
+HGA3   CG331  NTOID  CG2O1      0.0000  3     0.00 ! PROT, sp2-methyl, no torsion potential
+HGA3   CG331  NTOID  CG331      0.4200  3     0.00 ! /scrat , from HGA3 CG331 NG2S0 CG331
+HGA3   CG331  NTOID  CG321      0.4200  3     0.00 ! PROT, sp2-methyl, no torsion potential1
+
+NTOID  CG2O1  CG321  NTOID      0.8000  2   180.00 ! LJW Refit for Peptoids
+CG2O1  CG321  NTOID  CG2O1      0.2000  1   180.00 ! LJW Refit for Peptoids
+CG2O1  CG321  NTOID  CG331      0.8000  2     0.00 ! LJW Refit for Peptoids
+
+
+IMPROPERS
+CG2O1  CG321  NTOID  OG2D1    120.0000  0     0.00 ! PROT NMA Vibrational Modes (LK) WILDCARD
+CG2O1  CG331  NTOID  OG2D1    120.0000  0     0.00 ! PROT NMA Vibrational Modes (LK) WILDCARD
+
+!NONB
+NONBONDED
+NTOID    0.0       -0.2000     1.8500   0.0  -0.20 1.55 ! 1,4 vdW allows the C5 dipeptide minimum to exist
+
+
+END
+RETURN
+

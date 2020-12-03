@@ -1,0 +1,18 @@
+This folder contains the files for chiral sidechain simulation of nspe3.
+
+chi3.pdb: The pdb file for a possible starting structure of nspe3
+
+chi3.psf: The protein structure file for the same starting structure of nspe3 
+
+top_pep_ntoid.rtf: Topology file for the structures made for NTOID in CGenFF
+
+parameters: Folder to contain the parameter files for the Atomistic MD simulations in the NAMD format.
+	ATOMS: Contains AtomModel and atomic mass
+	BONDS: Contains AtomModel1, AtomModel2, k and r_0 for k(r-r_0)^2
+	ANGLES: Contains AtomModel1, AtomModel2, AtomModel2, k and theta_0 for k(theta-theta_0)^2
+	DIHEDRALS: Contains AtomModel1, AtomModel2, AtomModel3, AtomModel4, k, n and delta for k(1+cos(n*chi-delta))
+	IMPROPERS: Contains AtomModel1, AtomModel2, AtomModel3, AtomModel4, k, 0.0 and delta_0 for k(delta-delta_0)^2
+	NONB: Nonbonded parameters, 0.0, epsilon, Rmin/2, 0.0, epsilon1-4, Rmin1-4/2
+For more information, the link is: https://www.ks.uiuc.edu/Training/Tutorials/namd/namd-tutorial-unix-html/node25.html
+
+
