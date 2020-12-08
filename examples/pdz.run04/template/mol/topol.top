@@ -1,0 +1,50 @@
+;
+;	File 'topol.top' was generated
+;	By user: dongdong (154492)
+;	On host: tigercpu.princeton.edu
+;	At date: Mon Jan 13 17:00:06 2020
+;
+;	This is a standalone topology file
+;
+;	Created by:
+;	                    :-) GROMACS - gmx pdb2gmx, 2019.2 (-:
+;	
+;	Executable:   /home/dongdong/software/GMX20192plumed/bin/gmx
+;	Data prefix:  /home/dongdong/software/GMX20192plumed
+;	Working dir:  /scratch/gpfs/dongdong/rid/PDZ_test
+;	Command line:
+;	  gmx pdb2gmx -f conf000.pdb -o processed.gro -ignh -ter
+;	Force field was read from the standard GROMACS share directory.
+;
+
+; Include forcefield parameters
+#include "charmm36-mar2019.ff/forcefield.itp"
+
+; Include chain topologies
+#include "topol_Protein_chain_A.itp"
+#include "topol_Protein_chain_B.itp"
+
+; Include water topology
+#include "charmm36-mar2019.ff/tip3p.itp"
+
+#ifdef POSRES_WATER
+; Position restraint for each water oxygen
+[ position_restraints ]
+;  i funct       fcx        fcy        fcz
+   1    1       1000       1000       1000
+#endif
+
+; Include topology for ions
+#include "charmm36-mar2019.ff/ions.itp"
+
+[ system ]
+; Name
+Protein in water t=   0.00000
+
+[ molecules ]
+; Compound        #mols
+Protein_chain_A     1
+Protein_chain_B     1
+SOL         11282
+K                36
+CL               33
