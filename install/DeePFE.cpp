@@ -10,11 +10,7 @@
 using namespace std;
 using namespace tensorflow;
 
-#ifdef LOW_PREC
 typedef float  VALUETYPE;
-#else 
-typedef double VALUETYPE;
-#endif
 
 namespace PLMD {
   namespace bias {
@@ -133,11 +129,7 @@ namespace PLMD {
 	coord_shape.AddDim (nframes);
 	coord_shape.AddDim (isize * 2);  
 
-#ifdef LOW_PREC
 	Tensor coord_tensor	(DT_FLOAT, coord_shape);
-#else
-	Tensor coord_tensor	(DT_DOUBLE, coord_shape);
-#endif
 
 	auto coord = coord_tensor.matrix<VALUETYPE> ();
 
