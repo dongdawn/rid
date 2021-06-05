@@ -1,2 +1,0 @@
-python calc_rmsd.py -infiledir . -outfiledir . -iter_start 0 -iter_end 8 -num_walkers 30 -tprfile crystal_nowater.tpr -reference crystal_protein.gro -indexfile index_p.ndx
-python plot_dist_rmsd.py -rmsddir . -plmdir . -num_iter 8 -num_walkers 30 -outfile dist_rmsd

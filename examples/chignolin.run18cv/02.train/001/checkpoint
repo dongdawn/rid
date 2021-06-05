@@ -1,2 +1,0 @@
-model_checkpoint_path: "/scratch/gpfs/dongdong/chignolin.run18cv/02.train/001/model.ckpt"
-all_model_checkpoint_paths: "/scratch/gpfs/dongdong/chignolin.run18cv/02.train/001/model.ckpt"

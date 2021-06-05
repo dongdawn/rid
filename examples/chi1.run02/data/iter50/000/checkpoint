@@ -1,2 +1,0 @@
-model_checkpoint_path: "/scratch/gpfs/dongdong/chi1.run02/data/iter50/000/model.ckpt"
-all_model_checkpoint_paths: "/scratch/gpfs/dongdong/chi1.run02/data/iter50/000/model.ckpt"
