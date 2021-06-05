@@ -10,7 +10,8 @@
         * 2.1.3. [Install plumed2.5.2](#Installplumed2.5.2)
         * 2.1.4. [Install gromacs 2019.2](#Installgromacs2019.2)
 * 3. [Quick Start](#QuickStart)
-	* 3.1. [CV selection](#CVselection)
+	* 3.1. [RiD work_path generation](#RiDwork_pathgeneration)
+	* 3.2. [Run RiD](#RunRiD)
 * 4. [Main procedure of RiD](#MainprocedureofRiD)
 		* 4.1. [a. Biased MD](#a.BiasedMD)
 		* 4.2. [b. Restrained MD](#b.RestrainedMD)
@@ -21,7 +22,7 @@
 
 ##  1. <a name='Introduction'></a>**Introduction**
 
-Rid-kit is a python package for enhanced sampling via RiD(Reinforced Dynamics) method.
+RiD-kit is a python package for enhanced sampling via RiD (Reinforced Dynamics) method.
 
 ##  2. <a name='Installation'></a>**Installation**
 
@@ -33,7 +34,7 @@ Rid-kit is a python package for enhanced sampling via RiD(Reinforced Dynamics) m
 The tensorflow's C++ interface will be compiled from the source code, can be found [here](https://github.com/deepmodeling/deepmd-kit/blob/master/doc/install-tf.1.8.md).
 
 #### 2.1.3 <a name='Installplumed2.5.2'></a>**Install plumed2.5.2**
-You need copy compiled `DeePFE.cpp` to the plumed directory. This file locats at `rid-kit/install/DeePFE.cpp`
+You need copy compiled `DeePFE.cpp` to the plumed directory. This file locats at `install/DeePFE.cpp`
 ```bash
 tar -xvzf plumed-2.5.2.tgz
 cp DeePFE.cpp plumed-2.5.2/src/bias
@@ -70,18 +71,11 @@ source /software/GMX20192plumed/bin/GMXRC.bash
 ```
 
 ##  3. <a name='QuickStart'></a>**Quick Start**
-We offer a simple but complete example in `rid-kit/examples`. RiD process can run either on batch or locally.
 
-To begin with, you should offer a rid parameters file(rid.json), a CV file(cv.json), a machine configuration file(machine.json) and a folder(mol/) containing initial conformation files in detail, and the number of conformation files should be equal to the number of walkers for parallel.
+Two steps in this version of RiD.
+The first is the generation of RiD work path, and then run RiD in the work path.
 
-All these files are presented in `examples` folder where the users can adjust the parameter as their will.
-
-The process of running will be recorded in `(work_path)/recoord.txt` in which its iteration index and task index will be written after finishing every task. If you want to rerun the process and make sure that a record file exists in the work path, the program will restart from the next one of the end of the record(just use the same command to resatrt). If a task was restarted, but a working folder (which this task should generate) has already existed, this existed folder will be backed off as `folder_name.bk00`. That is, you can restart the process at any individual task node through modifying the recording file.
-
-However, if there is NOT a record file in the working path, the whole process will restrat at the very beginning. The old one will become a back-up folder as `old_folder.bk000`.
-
-###  3.1. <a name='CVselection'></a>**CV selection**
-In this version, the users can choose the dihedral angles as CVs.  In the CV file(`cv.json`), the users can write the indexes of the selected residues, the two dihedral angles ($\psi$ and $\phi$) will be both setted as the CVs. 
+###  3.1. <a name='RiD work_path generation'></a>**RiD work_path generation**
 
 Let's begin with a simple example, ala2, which has a sequence (1ACE, 2ALA, 3NME).The `cv.json` file can be set as:
 ```json
@@ -96,26 +90,23 @@ Let's begin with a simple example, ala2, which has a sequence (1ACE, 2ALA, 3NME)
 		       {"name" : ["C"],  "resid_shift" : 0},
 		       {"name" : ["N"],  "resid_shift" : 1} ]
 		   ],
-    "selected_index":  [0, 1, 2],
     "alpha_idx_fmt":	"%03d",
     "angle_idx_fmt":	"%02d"
 }
 ```
-`"dih_angles"` is our defination of dihedral angles($\phi$, $\psi$) by default. Users can write the list of `"selected_index"` as their wish. Rid-kit will remove the non-existed dihedral angles of the terminal residues automatically. In this example, `"selected_index":  [0, 1, 2]` means we select dihedral angles of the 1st, 2nd and 3rd residues as our CVs. However, the terminal residues (or caps) have only either $\phi$ or $\psi$, or none of them (e.g. 1ACE and 3NME have no dihedral angles, 2ALA has $\phi$ and $\psi$), so even if we have selected the indexes of 1ACE and 3NME, the total dimension of CVs is **2**, which comes from the two dihedral angles of 2ALA.  
+`"dih_angles"` is our defination of dihedral angles($\phi$, $\psi$) by default.   
 
-> ***Note***: The indexes in `cv.json` start from **0**, while the indexes of residues in `.gro` file start from **1**.
-
-Plumed will output all selected angles during every md process, and the users can find them in `work_path/iter.0000xx/00.enhcMD/00x/plm.out`, file `angle.rad.out` in the same path is a copy but removing the frame indexes. Thus, in the previous example of ala2, the processed output `angle.rad.out` will look like:
+```bash
+python gen.py rid ./jsons/default_gen.json ./jsons/CV.json ./mol/alan/amber99sb/01/ -o ala2.rid
 ```
--2.429137 2.552929
--2.503469 2.463779
-...
--1.240340 2.390756
+
+###  3.2. <a name='run RiD'></a>**run RiD**
+
+```bash
+cd ala2.rid
+python rid.py rid.json
 ```
-These datas are nothing but the dihedral angles in every frame. The first column is $\phi$ angle, the second column is $\psi$ angle. 
-
-We will add more features for users to select more different (and customed) CVs.
-
+The parameters in `"rid.json"` are described in the following.
 
 ##  4. <a name='MainprocedureofRiD'></a>**Main procedure of RiD**
 
@@ -158,27 +149,24 @@ Two necessary json files are required to get start a RiD procedure.
 
 | Parameters | Type | Description | Default/Example |
 | :----: | :----: | :----: | :----: |
-| gmx_prep | str | Gromacs preparation command | gmx grompp -maxwarn 1 |
-| gmx_run | str | Gromacs md run command | gmx mdrun -ntmpi 1 |
+| gmx_prep | str | Gromacs preparation command | gmx grompp|
+| gmx_run | str | Gromacs md run command | gmx mdrun|
 | init_graph | list&str | initial graph files list | [] |
-| numb_iter | int | number of iterations | 3 |
-| numb_walkers | int | number of walkers | 2 |
-| bf_traj_stride | int | brute force trajectory stride | 500 |
+| numb_iter | int | number of iterations | 12 |
 
 **Setting for biased MD**
 
 | Parameters | Type | Description | Default/Example |
 | :----: | :----: | :----: | :----: |
-| bias_trust_lvl_1 | int | trust upper level | 2 |
-| bias_trust_lvl_2 | int | trust lower level | 3 |
+| numb_walkers | int | number of walkers | 8 |
+| bias_trust_lvl_1 | int | trust lower level | 2 |
+| bias_trust_lvl_2 | int | trust upper level | 3 |
 | bias_nsteps | int | total number of steps of biased MD | 20000 |
 | bias_frame_freq | int | frame frequency for recording | 20 |
 | sel_threshold | float/int | initial threshold for selection | 2 |
 | cluster_threshold | float | * | 1.5 |
-| num_of_cluster_threshhold | int | minimum of cluster number | 8 |
+| num_of_cluster_threshhold | int | minimum of cluster number | 15 |
 | max_sel | int | maximum of selection of clusters | 30 |
-| bias_dt | float | time interval of biased MD | 0.002 |
-| bias_temperature | float/int | temperature for biased MD | 320 |
 
 **Setting for restrained MD**
 
@@ -186,14 +174,6 @@ Two necessary json files are required to get start a RiD procedure.
 | :----: | :----: | :----: | :----: |
 | res_nsteps | int | total number of steps of restrained MD | 25000 |
 | res_frame_freq | int | frame frequency for recording| 50 |
-| res_dt | float | time interval of restrained MD | 0.002 |
-| res_temperature | int | temperature for restrained MD | 320 |
-| res_kappa | float/int | force constant for restraining CV | 500 |
-| **res_traj_stride** | int | brute force trajectory stride | 500 |
-| res_ang_stride | int | step stride of angle | 5 |
-| res_prt_file | str | file name | plm.res.out |
-| init_numb_cluster_upper | int | upper limit of cluster selection | 26 |
-| init_numb_cluster_lower | int | lower limit of cluster selection, must be > 1 | 16 |
 | conf_start | int | the index of the first conformation selected | 0 |
 | conf_every | int | the stride of conformation selection | 1 |
 
@@ -202,14 +182,14 @@ Two necessary json files are required to get start a RiD procedure.
 | Parameters | Type | Description | Default/Example |
 | :----: | :----: | :----: | :----: |
 | numb_model | int | number of nn models | 4 |
-| neurons | list&int | number of nodes for each layer | [256, 128, 64, 32] |
+| neurons | list&int | number of nodes for each layer | [200, 200, 200, 200] |
 | resnet | bool | whether to use Resnet | True |
 | batch_size | int | batch size | 128 |
-| numb_epoches | int | total number of epochs for every training | 2000 |
+| numb_epoches | int | total number of epochs for every training | 12000 |
 | starter_lr | float | initial learning rate | 0.0008 |
 | decay_steps | int | decay steps of lr | 120 |
 | decay_rate | float | decay rate of lr | 0.96 |
-| **res_iter** | int | after this iteration, old data will be reduced | 13 |
+| res_iter | int | after this iteration, old data will be reduced | 13 |
 | res_numb_epoches | int | restrat setting | 2000 |
 | res_starter_lr | float | restrat setting | 0.0008 |
 | res_olddata_ratio | int/float | restrat setting | 7 |
