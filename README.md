@@ -28,9 +28,9 @@ RiD (Reinforced Dynamics) is an enhanced sampling method.
 
 > ***Note***:
 > 
-> If you want to set environments by hand, please follow settings 2.1.1 ~ 2.1.4.  (install time is about half a day)
+> If you want to set environments by hand, please follow settings 2.1.1 ~ 2.1.4. (The install time is about half a day)
 >
-If you want to set the environment of RiD through the one-click installer, we offer a [link](https://pan.baidu.com/s/1UvadZ_QlJ3894XOaa479Mg). (password: b4np)to download, just run it with `shell`. (install time is about ten minutes)
+>If you want to set the environment of RiD through the one-click installer, we offer a [link](https://pan.baidu.com/s/1UvadZ_QlJ3894XOaa479Mg). (password: b4np)to download, just run it with `shell`. (The install time is about ten minutes)
 
 ###  2.1. <a name='Environmentinstallation'></a>**Environment installation**
 
@@ -79,9 +79,9 @@ source /software/GMX20192plumed/bin/GMXRC.bash
 ##  3. <a name='QuickStart'></a>**Quick Start**
 
 Two steps in this version of RiD.
-The first is the generation of RiD work path, and then run RiD in the work path.
+The first is the generation of RiD work directory, and then run RiD in the work directory.
 
-###  3.1. <a name='RiD work_path generation'></a>**RiD work_path generation**
+###  3.1. <a name='RiDwork_pathgeneration'></a>**RiD work_path generation**
 
 Let's begin with a simple example, ala2, which has a sequence (1ACE, 2ALA, 3NME).The `cv.json` file can be set as:
 ```json
@@ -100,14 +100,14 @@ Let's begin with a simple example, ala2, which has a sequence (1ACE, 2ALA, 3NME)
     "angle_idx_fmt":	"%02d"
 }
 ```
-`"dih_angles"` is our defination of dihedral angles($\phi$, $\psi$) by default.   
+`"dih_angles"` is our defination of dihedral angles ($\phi$, $\psi$) by default.   
 
 ```bash
 cd source
 python gen.py rid ./jsons/default_gen.json ./jsons/CV.json ./mol/alan/amber99sb/01/ -o ala2.rid
 ```
 
-###  3.2. <a name='run RiD'></a>**run RiD**
+###  3.2. <a name='runRiD'></a>**run RiD**
 
 ```bash
 cd ala2.rid
@@ -135,7 +135,7 @@ RiD will run in iterations. Each iteration contains tasks below:
 
 ####  4.1. <a name='a.BiasedMD'></a>a. **Biased MD**
 
-Just like Metadynamics, RiD will sample based on a bias potential given by NN models. A uncertainty indicator will direct the process of adding bias potential.
+Different from Metadynamics, RiD will sample based on a bias potential given by NN models. The uncertainty indicator will direct the process of adding bias potential.
 
 ####  4.2. <a name='b.RestrainedMD'></a>b. **Restrained MD**
 
