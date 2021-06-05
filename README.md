@@ -22,9 +22,14 @@
 
 ##  1. <a name='Introduction'></a>**Introduction**
 
-RiD-kit is a python package for enhanced sampling via RiD (Reinforced Dynamics) method.
+RiD (Reinforced Dynamics) is an enhanced sampling method.
 
 ##  2. <a name='Installation'></a>**Installation**
+
+> ***Note***:
+> 
+> If you want to set environments by hand, please follow settings 2.1.1 ~ 2.1.4.  (install time is about half a day)
+If you install environment of rid through the one-click installer, we offer a link (https://pan.baidu.com/s/1UvadZ_QlJ3894XOaa479Mg  password: b4np)to download, just run it with `shell`. (install time is about ten minutes)
 
 ###  2.1. <a name='Environmentinstallation'></a>**Environment installation**
 
@@ -97,6 +102,7 @@ Let's begin with a simple example, ala2, which has a sequence (1ACE, 2ALA, 3NME)
 `"dih_angles"` is our defination of dihedral angles($\phi$, $\psi$) by default.   
 
 ```bash
+cd source
 python gen.py rid ./jsons/default_gen.json ./jsons/CV.json ./mol/alan/amber99sb/01/ -o ala2.rid
 ```
 
@@ -107,6 +113,8 @@ cd ala2.rid
 python rid.py rid.json
 ```
 The parameters in `"rid.json"` are described in the following.
+
+The results are saved in the current directory.
 
 ##  4. <a name='MainprocedureofRiD'></a>**Main procedure of RiD**
 
@@ -138,10 +146,8 @@ A more detail description of RiD is published now, please see:
 ##  5. <a name='RiDsettings'></a>**RiD settings**
 
 
-Two necessary json files are required to get start a RiD procedure.
+File `"rid.json"` for configuration of simulation.
 
-1. rid.json for configuration of simulation.
-2. cv.json for specifying CV.
 
 ###  5.1. <a name='rid.json'></a>**rid.json**
 
