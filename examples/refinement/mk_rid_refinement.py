@@ -77,8 +77,6 @@ def mk_rid(pdbname):
     os.chdir('/home/dongdong/SCR/jxy/%s' %pdbname)
 
 pdbname = ['R0986s1']
-pdbname = ['R0986s2']
-pdbname = ['R0981-D5']
 for pp in pdbname:
     pathlib.Path(pp).mkdir(parents=True, exist_ok=True)
     os.system('cp CASP13_Refinement/Model/%s.pdb %s' %(pp,pp))
