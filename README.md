@@ -114,6 +114,7 @@ python rid.py rid.json
 ```
 The parameters in `"rid.json"` are described in the following.
 
+In addition, we provide the cases we studied in `"examples"`
 The results are saved in the current directory.
 
 ##  4. <a name='MainprocedureofRiD'></a>**Main procedure of RiD**
