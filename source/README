@@ -1,2 +1,3 @@
-python gen.py rid ./jsons/default_gen.json ./jsons/phipsi.json ./mol/alan/amber99sb/01/
+python gen.py rid ./jsons/default_gen.json ./jsons/phipsi.json ./mol/alan/amber99sb/01/ -o ala2.rid
+cd ala2.rid
 python rid.py rid.json
