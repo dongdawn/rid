@@ -29,7 +29,7 @@ RiD (Reinforced Dynamics) is an enhanced sampling method.
 > ***Note***:
 > 
 > If you want to set environments by hand, please follow settings 2.1.1 ~ 2.1.4.  (install time is about half a day)
-If you install environment of rid through the one-click installer, we offer a link (https://pan.baidu.com/s/1UvadZ_QlJ3894XOaa479Mg  password: b4np)to download, just run it with `shell`. (install time is about ten minutes)
+If you install environment of rid through the one-click installer, we offer a [link](https://pan.baidu.com/s/1UvadZ_QlJ3894XOaa479Mg). (password: b4np)to download, just run it with `shell`. (install time is about ten minutes)
 
 ###  2.1. <a name='Environmentinstallation'></a>**Environment installation**
 
