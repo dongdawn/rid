@@ -1,5 +1,5 @@
 
-# Rid-kit
+# RiD (Reinforced dynamics)
 ## 0. **Content**
 <!-- vscode-markdown-toc -->
 * 1. [Introduction](#Introduction)
@@ -26,11 +26,6 @@ Rid-kit is a python package for enhanced sampling via RiD(Reinforced Dynamics) m
 ##  2. <a name='Installation'></a>**Installation**
 
 ###  2.1. <a name='Environmentinstallation'></a>**Environment installation**
-
-> ***Note***:
-> 
-> If you want to set environments by hand, please follow settings 2.1.1 ~ 2.1.4. 
-If you install environment of rid through the one-click installer we offered at git release, just run it with `shell`, and then jump to section 2.2 .
 
 #### 2.1.1. <a name='Installpythonandtensorflow'></a>**Install python and tensorflow** (version<=1.15)
 
