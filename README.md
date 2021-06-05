@@ -29,7 +29,8 @@ RiD (Reinforced Dynamics) is an enhanced sampling method.
 > ***Note***:
 > 
 > If you want to set environments by hand, please follow settings 2.1.1 ~ 2.1.4.  (install time is about half a day)
-If you install environment of rid through the one-click installer, we offer a [link](https://pan.baidu.com/s/1UvadZ_QlJ3894XOaa479Mg). (password: b4np)to download, just run it with `shell`. (install time is about ten minutes)
+>
+If you want to set the environment of RiD through the one-click installer, we offer a [link](https://pan.baidu.com/s/1UvadZ_QlJ3894XOaa479Mg). (password: b4np)to download, just run it with `shell`. (install time is about ten minutes)
 
 ###  2.1. <a name='Environmentinstallation'></a>**Environment installation**
 
@@ -112,18 +113,25 @@ python gen.py rid ./jsons/default_gen.json ./jsons/CV.json ./mol/alan/amber99sb/
 cd ala2.rid
 python rid.py rid.json
 ```
+This case would run for several hours on one GPU.
+
 The parameters in `"rid.json"` are described in the following.
 
-In addition, we provide the cases we studied in `"examples"`
-The results are saved in the current directory.
+In addition, we provide the cases we studied in `"examples"`.
+
+Just change to the directory and type `"python rid.py rid.json"`.
+
+The results would be saved in the current directory.
 
 ##  4. <a name='MainprocedureofRiD'></a>**Main procedure of RiD**
 
-RiD will run in iterations. Every iteration contains tasks below:
+RiD will run in iterations. Each iteration contains tasks below:
 
-1. Biased MD;
-2. Restrained MD;
-3. Training neural network.
+1. Biased MD
+
+2. Restrained MD
+
+3. Training neural network
 
 ####  4.1. <a name='a.BiasedMD'></a>a. **Biased MD**
 
