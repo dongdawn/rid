@@ -9,13 +9,8 @@
         * 2.1.2. [Install tensorflow's C++ interface](#Installpythonandtensorflow)
         * 2.1.3. [Install plumed2.5.2](#Installplumed2.5.2)
         * 2.1.4. [Install gromacs 2019.2](#Installgromacs2019.2)
-    * 2.2. [Install dpdispatcher](#Installdpdispatcher)
-	* 2.3. [Install rid package](#Installridpackage)
 * 3. [Quick Start](#QuickStart)
 	* 3.1. [CV selection](#CVselection)
-	* 3.2. [Dispatching](#Dispatching)
-		* 3.2.1. [Batch Job](#BatchJob)
-		* 3.2.2. [Local Job](#LocalJob)
 * 4. [Main procedure of RiD](#MainprocedureofRiD)
 		* 4.1. [a. Biased MD](#a.BiasedMD)
 		* 4.2. [b. Restrained MD](#b.RestrainedMD)
@@ -79,37 +74,8 @@ Set the bashrc
 source /software/GMX20192plumed/bin/GMXRC.bash
 ```
 
-#### 2.2. <a name='Installdpdispatcher'></a>**Install dpdispatcher**
-```bash
-git clone https://github.com/deepmodeling/dpdispatcher.git
-cd dpdispatcher
-python setup.py install
-```
-dpdispatcher is a tool for job submitting.
-
-###  2.3. <a name='Installridpackage'></a>**Install rid package**
-Now you have all dependence of RiD (Gromacs, Tensorflow and a conda environment).
-~~~bash
-cd rit-kit
-python setup.py install
-~~~
-Open python, try `import rid`.
-
-Installation finishes successfully if you get no error.
-
 ##  3. <a name='QuickStart'></a>**Quick Start**
 We offer a simple but complete example in `rid-kit/examples`. RiD process can run either on batch or locally.
-
-if running locally, please try:
-```bash
-cd examples
-python main.py jsons/rid.json -c jsons/cv.json -s jsons/local.json -i ./mol -o ./test_examples 
-```
-if running on batch, please try:
-```bash
-cd examples
-python main.py jsons/rid.json -c jsons/cv.json -s jsons/machine.json -i ./mol -o ./test_examples 
-```
 
 To begin with, you should offer a rid parameters file(rid.json), a CV file(cv.json), a machine configuration file(machine.json) and a folder(mol/) containing initial conformation files in detail, and the number of conformation files should be equal to the number of walkers for parallel.
 
@@ -155,53 +121,6 @@ These datas are nothing but the dihedral angles in every frame. The first column
 
 We will add more features for users to select more different (and customed) CVs.
 
-###  3.2. <a name='Dispatching'></a>**Dispatching**
-Every task of RiD can be assigned to either compute nodes or local machine, which can be achived in machine configuration file(for instance, `machine.json or local.json`). These settings give the messages of users to `dpdispatcher` which can automatically distribute resources.
-
-####  3.2.1. <a name='BatchJob'></a>**Batch Job**
-If you want to submit jobs to dispatchng system, like Slurm or PBS, please follow settings like this:
-```json
-    "enhcMD": {
-        "machine":{
-            "batch_type": "Slurm",
-            "context_type": "LazyLocalContext",
-            "local_root": "./",
-            "remote_root": "./"
-        },
-        "resources":{
-            "queue_name": "GPU_2080Ti",
-            "number_node": 1,
-            "cpu_per_node": 8,
-            "gpu_per_node": 1,
-            "group_size": 1,
-            "if_cuda_multi_devices": false
-        }
-    },
-```
-`"enhcMD"` represents the name of your job. Key `"machine"` decides where the jobs run, as for batch jobs, set `batch_type=your_dispatching_system`. Key `"resources"` means the resource you apply from the dispatching system. `"group_size"` is the size of each group of tasks which you have submitted, for example, you have 20 Tasks(a command, a Task, like `"gmx mdrun"`) and have `group_size = 10`, then the program will submit `20/10=2` Jobs to the dispatching system for parallel running, and each Job contains 10 Tasks(commands) going sequentially. At last, `"if_cuda_multi_devices"` can help assign tasks to one GPU.
-
-####  3.2.2. <a name='LocalJob'></a>**Local Job**
-If you want to run jobs locally, please follow settings like this:
-```json
-    "cmpf": {
-        "machine":{
-            "batch_type": "Shell",
-            "context_type": "LazyLocalContext",
-            "local_root": "./",
-            "remote_root": "./"
-        },
-        "resources":{
-            "queue_name": null,
-            "number_node": null,
-            "cpu_per_node": null,
-            "gpu_per_node": 0,
-            "group_size": 1000
-        }
-    },
-```
-Just set `batch_type` to `shell`. When you submit jobs to local machine, some keys(`"queue_name", "number_node", "cpu_per_node"`) become unnecessary. In these cases, local machine will use full resource to carry out commands by default. If you have a quite large `group_size`, it will be the same as you run the command in a new shell.
-
-By adjusting these settings, the users can assign any task to anywhere.
 
 ##  4. <a name='MainprocedureofRiD'></a>**Main procedure of RiD**
 
